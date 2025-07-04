@@ -30,12 +30,26 @@ knowledge_study_agent_graph_app/
 
 ## 部署与运行
 
+## 依赖说明
+
+- 后端依赖：
+  - Python 3.x
+  - FastAPI
+  - Uvicorn
+  - pydantic
+  - 以及你实际用到的模型/向量库相关依赖（如 transformers、chroma、sqlite3 等）
+
+### 后端依赖安装
+```bash
+pip install fastapi uvicorn pydantic chromadb python-dotenv langchain langchain-openai langchain-community
+```
+
 ### 后端
 
 1. 进入 `backend` 目录，确保已安装 Python 3 及相关依赖。
 2. 运行后端服务：
    ```bash
-   python main.py
+   uvicorn main:app --reload
    ```
 
 ### 前端
@@ -43,9 +57,8 @@ knowledge_study_agent_graph_app/
 1. 进入 `frontend` 目录。
 2. 直接用浏览器打开 `index.html` 即可访问前端页面。
 
-## 依赖说明
 
-- 后端依赖：Python 3.x，可能还需 Flask、sqlite3、chroma 等（具体依赖请根据代码补充 requirements.txt）。
+
 - 前端依赖：原生 HTML/CSS/JS，无需额外依赖。
 
 ## 数据存储
