@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>AI 知识图谱 MVP</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 引入 vis-network 库 -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="graph-container">
+            <div id="mynetwork"></div>
+        </div>
+        <div id="panel-container">
+            <h2>操作面板</h2>
+            <input type="text" id="node-title" placeholder="新节点标题">
+            <button id="add-node-btn">添加知识节点</button>
+            <div style="margin-top: 10px;">
+                <label for="edge-source">起点：</label>
+                <select id="edge-source"></select>
+                <label for="edge-target">终点：</label>
+                <select id="edge-target"></select>
+                <button id="add-edge-btn">添加边</button>
+            </div>
+            <hr>
+            <div id="chat-panel" class="hidden">
+                <h3 id="chat-title">关于此节点的对话</h3>
+                <div id="chat-history"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="请输入你的问题...">
+                    <button id="send-chat-btn">发送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

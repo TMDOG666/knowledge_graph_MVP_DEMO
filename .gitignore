@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyzw
+*.pyzwz
+*.pyzwzw
+
+# 忽略 data/chats/ 目录下的所有内容
+backend/data/chats/*
+
+
+backend/db/*
+
+# 但保留 chats 文件夹本身
+!backend/data/chats/.gitkeep
+!backend/db/.gitkeep
+
+
