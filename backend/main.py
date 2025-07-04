@@ -18,10 +18,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- 实例化 Agent 工厂 ---
-# 注意：这会在启动时就加载模型和创建向量库，对于Demo来说可以接受
-# 在生产环境中，可能需要懒加载
-agent_factory = AgentFactory(agent_llm_model="Qwen/Qwen3-32B",embedding_model="BAAI/bge-m3")
+# --- Agent 懒加载优化 ---
+_agent_factory = None
+_python_agent = None
+_loading = False
 
 # 定义一个Agent配置（可以从配置文件读取）
 PYTHON_RAG_CONFIG = {
@@ -32,18 +32,25 @@ PYTHON_RAG_CONFIG = {
 }
 PYTHON_PERSONALITY = "你是一个资深的Python技术专家，精通Python底层原理和高级用法。你的回答严谨、专业、深入浅出。"
 
-# 创建一个常驻的Agent实例
-# 注意：为简化MVP，我们只创建一个Agent。每个会话的memory是独立的。
-# AgentExecutor的memory是会话级的，每次调用 invoke/stream 都会使用其内部的memory。
-# 为了实现持久化聊天，我们需要手动管理历史记录。
-python_agent = agent_factory.create_agent(
-    personality=PYTHON_PERSONALITY,
-    rag_config=PYTHON_RAG_CONFIG,
-    temperature=0.2,
-    use_memory=False,
-    use_rag=False,
-)
-
+def get_python_agent():
+    global _agent_factory, _python_agent, _loading
+    if _python_agent is None:
+        if _loading:
+            raise HTTPException(status_code=503, detail="Agent is loading, please try again later.")
+        _loading = True
+        try:
+            if _agent_factory is None:
+                _agent_factory = AgentFactory(agent_llm_model="Qwen/Qwen3-32B", embedding_model="BAAI/bge-m3")
+            _python_agent = _agent_factory.create_agent(
+                personality=PYTHON_PERSONALITY,
+                rag_config=PYTHON_RAG_CONFIG,
+                temperature=0.2,
+                use_memory=False,
+                use_rag=False,
+            )
+        finally:
+            _loading = False
+    return _python_agent
 
 # --- API Models ---
 class NodeIn(BaseModel):
@@ -106,11 +113,14 @@ async def chat_with_agent(chat_in: ChatIn):
 
     print(full_prompt)
     try:
-        result = python_agent.invoke({"input": full_prompt})
+        agent = get_python_agent()
+        result = agent.invoke({"input": full_prompt})
         ai_response = result.get('output', "抱歉，我无法回答这个问题。")
         history.append({"human": chat_in.prompt, "ai": ai_response})
         data_manager.save_chat_history(chat_in.node_id, history)
         return {"response": ai_response}
+    except HTTPException as e:
+        raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
