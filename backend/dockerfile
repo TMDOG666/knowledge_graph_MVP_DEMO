@@ -1,0 +1,12 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY . /app
+
+RUN pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple fastapi uvicorn pydantic chromadb python-dotenv langchain langchain-openai langchain-community
+
+EXPOSE 5000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]

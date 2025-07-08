@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_URL = 'http://127.0.0.1:8000'; // 你的FastAPI地址
+    const API_URL = 'http://xxx:5000'; // 你的FastAPI地址
     let network = null;
     let nodes = new vis.DataSet([]);
     let edges = new vis.DataSet([]);
