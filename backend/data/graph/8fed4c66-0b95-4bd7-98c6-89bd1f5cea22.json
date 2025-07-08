@@ -1,0 +1,52 @@
+{
+    "nodes": [
+        {
+            "id": "ddff95ad-0941-45c5-a2d6-cd65e8c3cadf",
+            "label": "python学习",
+            "type": "knowledge",
+            "content": "",
+            "tags": []
+        },
+        {
+            "id": "0d31d212-834d-4b91-8c0e-c0812b28595c",
+            "label": "基础阶段",
+            "type": "knowledge",
+            "content": "",
+            "tags": []
+        },
+        {
+            "id": "bbb11c76-5d50-4f91-bde7-d185702f17b2",
+            "label": "语法基础",
+            "type": "knowledge",
+            "content": "",
+            "tags": []
+        },
+        {
+            "id": "e9ec132b-2ac6-498c-967c-75d758d064c4",
+            "label": "变量与对象",
+            "type": "knowledge",
+            "content": "",
+            "tags": []
+        }
+    ],
+    "edges": [
+        {
+            "from": "ddff95ad-0941-45c5-a2d6-cd65e8c3cadf",
+            "to": "0d31d212-834d-4b91-8c0e-c0812b28595c",
+            "type": "default",
+            "label": ""
+        },
+        {
+            "from": "0d31d212-834d-4b91-8c0e-c0812b28595c",
+            "to": "bbb11c76-5d50-4f91-bde7-d185702f17b2",
+            "type": "default",
+            "label": ""
+        },
+        {
+            "from": "bbb11c76-5d50-4f91-bde7-d185702f17b2",
+            "to": "e9ec132b-2ac6-498c-967c-75d758d064c4",
+            "type": "default",
+            "label": ""
+        }
+    ]
+}

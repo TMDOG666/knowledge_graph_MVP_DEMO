@@ -1,0 +1,6 @@
+[
+    {
+        "human": "帮我列出学习大纲",
+        "ai": "以下是Python学习的进阶大纲建议，分为基础、进阶和高阶三个阶段：\n\n**基础阶段（1-2周）**\n1. 语法基础\n   - 变量与数据类型（int/str/list/dict等）\n   - 运算符与表达式\n   - 条件语句（if/elif/else）\n   - 循环结构（for/while）\n   - 函数定义与调用\n2. 数据结构\n   - 列表、元组、字典、集合的操作\n   - 字符串格式化与常用方法\n3. 文件操作\n   - 读写文件（open/read/write）\n   - JSON/CSV处理\n4. 异常处理\n   - try/except/finally\n   - 自定义异常类\n\n**进阶阶段（3-4周）**\n1. 面向对象编程\n   - 类与实例\n   - 继承与多态\n   - 魔法方法（__init__、__str__等）\n2. 模块与包管理\n   - 标准库常用模块（os/re/json等）\n   - pip安装与虚拟环境（venv/pipenv）\n   - 包结构设计与分发\n3. 函数式编程\n   - 高阶函数（map/filter/reduce）\n   - 闭包与装饰器\n   - 生成器与迭代器\n4. 高效编程技巧\n   - 列表推导式与生成器表达式\n   - 上下文管理器（with语句）\n   - 正则表达式深度应用\n\n**高阶阶段（持续深入）**\n1. 底层原理\n   - GIL机制与多线程限制\n   - 内存管理（引用计数/垃圾回收）\n   - CPython源码解析（可选）\n2. 并发编程\n   - threading/multiprocessing\n   - asyncio异步IO\n   - 并发与并行的区别\n3. 元编程\n   - 元类（metaclass）\n   - 描述符（property/__get__等）\n   - 动态属性与方法\n4. 性能优化\n   - cProfile性能分析\n   - Cython/C扩展\n   - 内存优化技巧\n5. 领域专项\n   - Web开发（Django/Flask）\n   - 数据分析（Pandas/Numpy）\n   - 机器学习（Scikit-learn/TensorFlow）\n   - 自动化脚本（paramiko/PyAutoGUI）\n\n建议配合实践项目（如爬虫/数据分析/Web应用）巩固知识，并持续关注Python官方文档更新（https://docs.python.org/3/whatsnew/）。是否需要针对某个具体方向细化大纲？"
+    }
+]

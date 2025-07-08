@@ -1,0 +1,38 @@
+[
+    {
+        "id": "8fed4c66-0b95-4bd7-98c6-89bd1f5cea22",
+        "name": "python学习",
+        "doc_paths": [
+            "G:\\tmdog_project\\py_study\\knowledge_study_agent_graph_app\\backend\\knowledge\\院校.txt"
+        ],
+        "root_node_id": null,
+        "personality": "你是一个高级python工程师，你来帮我学习python相关知识点，使用幽默风趣的口吻",
+        "rag_config": {
+            "use_rag": false,
+            "doc_paths": [
+                "G:\\tmdog_project\\py_study\\knowledge_study_agent_graph_app\\backend\\knowledge\\院校.txt"
+            ],
+            "tool_name": "python学习知识库",
+            "tool_description": "python学习领域的知识库。",
+            "persist_path": "./db/8fed4c66-0b95-4bd7-98c6-89bd1f5cea22_db"
+        }
+    },
+    {
+        "id": "00036894-d2d3-452f-8b10-5138ab6cc8db",
+        "name": "地图学习",
+        "doc_paths": [
+            "G:\\tmdog_project\\py_study\\knowledge_study_agent_graph_app\\backend\\knowledge\\院校.txt"
+        ],
+        "root_node_id": null,
+        "personality": "你是一个地图测绘相关领域专家，你来带领我学习地图测绘相关知识",
+        "rag_config": {
+            "doc_paths": [
+                "G:\\tmdog_project\\py_study\\knowledge_study_agent_graph_app\\backend\\knowledge\\院校.txt"
+            ],
+            "tool_name": "地图学习知识库",
+            "tool_description": "地图学习领域的知识库。",
+            "persist_path": "./db/地图学习_db",
+            "use_rag": false
+        }
+    }
+]

@@ -1,0 +1,58 @@
+Python 高级用法：
+
+1. 生成器（Generators）
+- 使用 yield 实现惰性迭代。
+- 示例：
+  def count_up_to(n):
+      count = 1
+      while count <= n:
+          yield count
+          count += 1
+
+2. 装饰器（Decorators）
+- 用于函数/类的功能增强。
+- 示例：
+  def my_decorator(func):
+      def wrapper(*args, **kwargs):
+          print('Before call')
+          result = func(*args, **kwargs)
+          print('After call')
+          return result
+      return wrapper
+
+3. 上下文管理器（Context Managers）
+- 用于资源管理（如文件、锁等）。
+- 实现方式：with 语句或 __enter__/__exit__ 方法。
+- 示例：
+  with open('file.txt') as f:
+      data = f.read()
+
+4. 元类（Metaclasses）
+- 控制类的创建过程。
+- 示例：
+  class MyMeta(type):
+      def __new__(cls, name, bases, dct):
+          dct['added_attr'] = 42
+          return super().__new__(cls, name, bases, dct)
+
+  class MyClass(metaclass=MyMeta):
+      pass
+
+  # MyClass.added_attr == 42
+
+5. 协程与异步编程（async/await）
+- 用于高并发IO场景。
+- 示例：
+  import asyncio
+  async def main():
+      await asyncio.sleep(1)
+      print('Done')
+
+6. 数据类（dataclasses）
+- 简化类的定义。
+- 示例：
+  from dataclasses import dataclass
+  @dataclass
+  class Point:
+      x: int
+      y: int 

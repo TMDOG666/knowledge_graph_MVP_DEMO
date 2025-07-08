@@ -32,22 +32,78 @@ class AgentFactory:
         self.llm_base_url = llm_base_url or SILICONFLOW_BASE_URL
         self.embedding_model = embedding_model
         self.embedding_base_url = embedding_base_url or SILICONFLOW_BASE_URL
+        self.knowledge_bases = {}  # 新增：存储多知识库配置
         print(f"工厂已初始化，默认 Agent LLM 为: {self.agent_llm_model}")
 
-    def _create_rag_tool(self, doc_path: str, tool_name: str, tool_description: str, persist_path: str) -> Tool:
+    def register_knowledge_base(self, name: str, rag_config: dict, personality: str):
         """
-        一个私有方法，用于创建针对特定知识库的RAG工具。
-        所有硬编码的部分都变成了参数。
+        注册一个知识库配置，供后续按名称创建agent。
+        name: 唯一标识
+        rag_config: RAG配置
+        personality: agent个性
+        """
+        self.knowledge_bases[name] = {
+            "rag_config": rag_config,
+            "personality": personality
+        }
+        print(f"知识库 '{name}' 已注册")
+
+    def list_knowledge_bases(self):
+        """返回所有已注册知识库名称"""
+        return list(self.knowledge_bases.keys())
+
+    def create_agent_by_kb_name(self, name: str, **kwargs):
+        """
+        按知识库名称创建agent。
+        kwargs可覆盖rag_config/personality/temperature等。
+        """
+        if name not in self.knowledge_bases:
+            raise ValueError(f"知识库 '{name}' 未注册")
+        kb = self.knowledge_bases[name]
+        rag_config = kwargs.get("rag_config", kb["rag_config"])
+        personality = kwargs.get("personality", kb["personality"])
+        temperature = kwargs.get("temperature", 0.7)
+        use_memory = kwargs.get("use_memory", False)
+        use_rag = kwargs.get("use_rag", True)
+        llm_model = kwargs.get("llm_model")
+        llm_base_url = kwargs.get("llm_base_url")
+        embedding_model = kwargs.get("embedding_model")
+        embedding_base_url = kwargs.get("embedding_base_url")
+        return self.create_agent(
+            personality=personality,
+            rag_config=rag_config,
+            temperature=temperature,
+            use_memory=use_memory,
+            use_rag=use_rag,
+            llm_model=llm_model,
+            llm_base_url=llm_base_url,
+            embedding_model=embedding_model,
+            embedding_base_url=embedding_base_url
+        )
+
+    def _create_rag_tool(self, doc_path: str = None, tool_name: str = None, tool_description: str = None, persist_path: str = None, doc_paths: list = None) -> Tool:
+        """
+        支持多文件知识库加载：doc_paths为文件路径列表，兼容单文件doc_path。
         """
         print(f"--- 正在为 '{tool_name}' 创建RAG工具 ---")
-        print(f"知识库路径: {doc_path}")
+        print(f"知识库路径: {doc_paths if doc_paths else doc_path}")
         print(f"向量数据库持久化路径: {persist_path}")
 
         # 1. 加载和分割文档
-        loader = TextLoader(doc_path, encoding="utf-8")
-        docs = loader.load()
+        all_docs = []
+        if doc_paths:
+            for path in doc_paths:
+                loader = TextLoader(path, encoding="utf-8")
+                docs = loader.load()
+                all_docs.extend(docs)
+        elif doc_path:
+            loader = TextLoader(doc_path, encoding="utf-8")
+            docs = loader.load()
+            all_docs.extend(docs)
+        else:
+            raise ValueError("必须提供doc_path或doc_paths")
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-        documents = text_splitter.split_documents(docs)
+        documents = text_splitter.split_documents(all_docs)
 
         # 2. 设置 Embedding 和向量数据库
         embeddings = OpenAIEmbeddings(
@@ -94,7 +150,8 @@ class AgentFactory:
         tools = []
         if use_rag:
             rag_tool = self._create_rag_tool(
-                doc_path=rag_config['doc_path'],
+                doc_path=rag_config.get('doc_path'),
+                doc_paths=rag_config.get('doc_paths'),
                 tool_name=rag_config['tool_name'],
                 tool_description=rag_config['tool_description'],
                 persist_path=rag_config['persist_path']
@@ -182,64 +239,3 @@ class AgentFactory:
             )
         print(f"======= Agent: {rag_config['tool_name']} 创建成功! =======")
         return agent_executor
-
-
-# # --- 3. 如何使用工厂 ---
-# def main():
-#     # 实例化工厂
-#     factory = AgentFactory()
-
-#     # 定义第一个 Agent: Python 专家
-#     python_rag_config = {
-#         "doc_path": "python_expert.txt",
-#         "tool_name": "Python专业知识库",
-#         "tool_description": "当你需要回答关于Python编程语言的专业问题时，请使用这个工具。例如GIL、多线程、装饰器等。",
-#         "persist_path": "./db/python_db"
-#     }
-#     python_personality = "你是一个资深的Python技术专家，精通Python底层原理和高级用法。你的回答严谨、专业、深入浅出。"
-#     python_agent = factory.create_agent(
-#         personality=python_personality,
-#         rag_config=python_rag_config,
-#         temperature=0.2
-#     )
-
-#     # 定义第二个 Agent: 项目经理
-#     pm_rag_config = {
-#         "doc_path": "project_manager.txt",
-#         "tool_name": "项目管理知识库",
-#         "tool_description": "当你需要回答关于项目管理、敏捷开发、Scrum等问题时，请使用这个工具。",
-#         "persist_path": "./db/pm_db"
-#     }
-#     pm_personality = "你是一个经验丰富的项目经理，擅长敏捷开发和团队沟通。你的回答注重实践、流程和协作。"
-#     pm_agent = factory.create_agent(
-#         personality=pm_personality,
-#         rag_config=pm_rag_config,
-#         temperature=0.7
-#     )
-
-#     # --- 和 Agent 交互 ---
-#     # 你可以选择和哪个 Agent 对话
-#     print("\n--- 现在与 Python 专家对话 ---")
-    
-#     # --- 这是修改后的流式输出代码 ---
-#     print("\n[Python 专家]: ", end="", flush=True)
-#     # 循环处理 stream 返回的每一个数据块
-#     for chunk in python_agent.stream({"input": "请解释一下Python的GIL是什么？"}):
-#         # 检查这个数据块中是否包含我们想要的'output'键
-#         if "output" in chunk:
-#             # 如果有，就打印'output'的值。
-#             # end="" 表示打印后不换行，让文字在同一行连续输出。
-#             # flush=True 表示立即将内容输出到控制台，而不是等待缓冲区满了再输出。
-#             print(chunk["output"], end="", flush=True)
-#     # 整个流结束后，打印一个换行符，让下次的提示符在新的一行开始。
-#     print()
-    
-#     print("\n--- 现在与项目经理对话 ---")
-#     result = pm_agent.invoke({"input": "敏捷开发的核心价值观是什么？"})
-#     print("\n[项目经理]:", result['output'])
-
-#     # 也可以创建一个交互式循环，让用户选择和谁聊天
-#     # ... 此处可以添加一个聊天循环 ...
-
-# if __name__ == "__main__":
-#     main()

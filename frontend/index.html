@@ -9,21 +9,81 @@
 </head>
 <body>
     <div class="container">
+        <!-- 左侧：主题栏 -->
+        <div id="topic-bar">
+            <h2>学习主题</h2>
+            <div id="topic-list"></div>
+            <hr>
+            <div class="section">
+                <h3>创建新主题</h3>
+                <form id="create-topic-form" enctype="multipart/form-data">
+                    <input type="text" id="topic-name" name="name" placeholder="主题名称" required>
+                    <textarea id="topic-personality" name="personality" placeholder="个性化提示词" required></textarea>
+                    <label><input type="checkbox" id="topic-use-rag" checked> 启用知识库</label>
+                    <input type="text" id="topic-tool-name" name="tool_name" placeholder="知识库工具名 (可选)">
+                    <input type="text" id="topic-tool-desc" name="tool_description" placeholder="知识库描述 (可选)">
+                    <input type="file" id="topic-files" name="files" accept=".txt" multiple required>
+                    <button type="submit">创建主题</button>
+                </form>
+            </div>
+            <!-- 编辑主题弹窗 -->
+            <div id="edit-topic-modal" class="modal hidden">
+                <div class="modal-content">
+                    <span class="close" id="close-edit-topic">&times;</span>
+                    <h3>编辑主题</h3>
+                    <form id="edit-topic-form">
+                        <input type="text" id="edit-topic-name" name="name" placeholder="主题名称" required>
+                        <textarea id="edit-topic-personality" name="personality" placeholder="个性化提示词"></textarea>
+                        <label><input type="checkbox" id="edit-topic-use-rag"> 启用知识库</label>
+                        <div id="edit-topic-docs-list"></div>
+                        <input type="file" id="edit-topic-add-files" accept=".txt" multiple>
+                        <button type="submit">保存修改</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 中间：图谱 -->
         <div id="graph-container">
             <div id="mynetwork"></div>
         </div>
+        <!-- 右侧：操作面板和聊天 -->
         <div id="panel-container">
             <h2>操作面板</h2>
-            <input type="text" id="node-title" placeholder="新节点标题">
-            <button id="add-node-btn">添加知识节点</button>
-            <div style="margin-top: 10px;">
+            <!-- 添加节点 -->
+            <div class="section">
+                <h3>添加节点</h3>
+                <input type="text" id="node-title" placeholder="新节点标题">
+                <button id="add-node-btn">添加知识节点</button>
+            </div>
+            <!-- 编辑节点 -->
+            <div class="section" id="edit-node-section" style="display: none;">
+                <h3>编辑节点</h3>
+                <input type="text" id="edit-node-title" placeholder="节点标题">
+                <textarea id="edit-node-content" placeholder="节点内容"></textarea>
+                <input type="text" id="edit-node-tags" placeholder="标签 (用逗号分隔)">
+                <button id="update-node-btn">更新节点</button>
+                <button id="delete-node-btn" style="background-color: #ff4444;">删除节点</button>
+            </div>
+            <!-- 添加边 -->
+            <div class="section">
+                <h3>添加边</h3>
                 <label for="edge-source">起点：</label>
                 <select id="edge-source"></select>
                 <label for="edge-target">终点：</label>
                 <select id="edge-target"></select>
                 <button id="add-edge-btn">添加边</button>
             </div>
+            <!-- 删除边 -->
+            <div class="section">
+                <h3>删除边</h3>
+                <label for="delete-edge-source">起点：</label>
+                <select id="delete-edge-source"></select>
+                <label for="delete-edge-target">终点：</label>
+                <select id="delete-edge-target"></select>
+                <button id="delete-edge-btn" style="background-color: #ff4444;">删除边</button>
+            </div>
             <hr>
+            <!-- 聊天面板 -->
             <div id="chat-panel" class="hidden">
                 <h3 id="chat-title">关于此节点的对话</h3>
                 <div id="chat-history"></div>
@@ -34,7 +94,6 @@
             </div>
         </div>
     </div>
-
     <script src="app.js"></script>
 </body>
 </html>
