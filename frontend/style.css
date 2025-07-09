@@ -1,64 +1,143 @@
+/* --- 1. 全局设置 & CSS 变量 --- */
+:root {
+    --bg-color: #f7f8fa;          /* 主背景色 */
+    --panel-bg: #ffffff;         /* 面板背景色 (白色) */
+    --panel-secondary-bg: #fdfdfd; /* 用于卡片内部的浅色背景 */
+    --border-color: #e9ebee;      /* 柔和的边框颜色 */
+    --shadow-color: rgba(0, 0, 0, 0.05); /* 统一的阴影颜色 */
+    
+    --primary-color: #007aff;     /* 现代感的蓝色，适配深色模式 */
+    --primary-hover: #005ecb;     /* 主色悬停 */
+    --danger-color: #ff3b30;      /* 危险/删除操作颜色 */
+    --danger-hover: #d92c23;
+
+    --text-primary: #1d1d1f;      /* 主文本，近乎黑色 */
+    --text-secondary: #6e6e73;    /* 副文本，用于标签、占位符 */
+    --text-on-primary: #ffffff;   /* 在主色背景上的文本颜色 */
+
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --border-radius: 8px;
+    --transition-speed: 0.2s;
+}
+
+/* --- 2. 基础 & 字体样式 --- */
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
+h2, h3 {
+    font-weight: 600;
+}
+
+h2 {
+    margin-top: 0;
+    color: var(--text-primary);
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--primary-color);
+    font-size: 1.5em;
+}
+
+h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--text-secondary);
+    font-size: 1.1em;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 25px 0;
+}
+
+/* 自定义滚动条 (适用于 WebKit 内核浏览器) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+/* --- 3. 主体布局 --- */
 .container {
     display: flex;
     height: 100vh;
 }
 
+#topic-bar {
+    flex: 0 0 280px; /* 增加宽度以获得更好空间 */
+    background-color: var(--panel-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 24px;
+    box-sizing: border-box;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 #graph-container {
-    flex: 2;
-    background-color: white;
-    border-right: 1px solid #ddd;
-    min-width: 0;
+    flex: 0 1 600px; /* 让图谱区域默认600px宽，可缩放 */
+    background-color: var(--bg-color); /* 匹配主背景，无缝衔接 */
+    min-width: 0; /* 对 flex 布局非常重要 */
 }
 
 #mynetwork {
     width: 100%;
     height: 100%;
+    border: none;
 }
 
 #panel-container {
-    flex: 1;
-    padding: 20px;
-    background-color: white;
+    flex: 1 0 500px; /* 填满右侧所有空间，最小500px */
+    padding: 24px;
+    background-color: var(--panel-bg);
+    border-left: 1px solid var(--border-color);
     overflow-y: auto;
-    max-width: 400px;
 }
 
-#panel-container h2 {
-    margin-top: 0;
-    color: #333;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
-}
+/* --- 4. 组件样式 --- */
 
-.section {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: #fafafa;
-}
-
-.section h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #555;
-    font-size: 16px;
-}
-
-input[type="text"], textarea, select {
+/* 表单元素 (输入框, 文本域, 下拉选择) */
+input[type="text"], textarea, select, input[type="file"] {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: #f9f9f9;
     box-sizing: border-box;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+input[type="text"]::placeholder, textarea::placeholder {
+    color: #a0a0a0;
+}
+
+input[type="text"]:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
 }
 
 textarea {
@@ -66,205 +145,249 @@ textarea {
     resize: vertical;
 }
 
-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
+/* 文件输入框美化 */
+input[type="file"] { cursor: pointer; }
+input[type="file"]::file-selector-button {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px 12px;
     cursor: pointer;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    margin-right: 10px;
+    color: var(--text-secondary);
+    transition: background-color var(--transition-speed);
+}
+input[type="file"]::file-selector-button:hover { background-color: #e9e9e9; }
+
+
+/* 按钮 */
+button {
+    background-color: var(--primary-color);
+    color: var(--text-on-primary);
+    padding: 12px 18px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+button:active { transform: translateY(0); }
+button:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
+
+/* 危险操作按钮 */
+button[style*="#ff4444"], button[id="delete-node-btn"], button[id="delete-edge-btn"] {
+    background-color: var(--danger-color);
+}
+button[style*="#ff4444"]:hover, button[id="delete-node-btn"]:hover, button[id="delete-edge-btn"]:hover {
+    background-color: var(--danger-hover);
 }
 
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+
+/* 复选框 */
+label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+input[type="checkbox"] {
+    width: 1.2em;
+    height: 1.2em;
+    accent-color: var(--primary-color);
 }
 
-.hidden {
-    display: none !important;
+
+/* 卡片区域 */
+.section {
+    margin-bottom: 24px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px; /* 更大的圆角 */
+    background-color: var(--panel-secondary-bg);
+    box-shadow: 0 4px 6px var(--shadow-color);
 }
+
+/* --- 5. 各面板专属样式 --- */
+
+/* 左侧: 主题栏 */
+#topic-bar { gap: 20px; }
+#topic-list { margin-bottom: 0; flex-grow: 1; }
+
+/* 主题列表项样式 (假设 JS 会为每个主题添加 .topic-item 类) */
+.topic-item {
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.topic-item:hover { background-color: #f0f0f5; }
+.topic-item.active { background-color: var(--primary-color); color: var(--text-on-primary); }
+
+#create-topic-form button { width: 100%; }
+
+
+/* --- 6. 聊天面板 --- */
+.hidden { display: none !important; }
 
 #chat-panel {
-    margin-top: 20px;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-}
-
-#chat-title {
-    margin-top: 0;
-    color: #333;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    background: var(--panel-secondary-bg);
+    box-shadow: 0 4px 6px var(--shadow-color);
 }
 
 #chat-history {
-    height: 200px;
+    height: 250px; /* 增加高度 */
     overflow-y: auto;
-    border: 1px solid #ddd;
+    border: none;
     padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
+    margin-bottom: 15px;
+    background-color: var(--bg-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.human-msg, .ai-msg {
+    padding: 10px 14px;
+    border-radius: 18px; /* 气泡感 */
+    word-wrap: break-word;
+    max-width: 80%;
+    line-height: 1.4;
+}
+
+.human-msg {
+    background-color: var(--primary-color);
+    color: var(--text-on-primary);
+    border-bottom-right-radius: 4px; /* 经典聊天气泡样式 */
+    align-self: flex-end;
+}
+
+.ai-msg {
+    background-color: #e5e5ea; /* 类似 iOS 的灰色气泡 */
+    color: var(--text-primary);
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
 }
 
 .chat-input-area {
     display: flex;
     gap: 10px;
+    align-items: center;
 }
+.chat-input-area input { flex: 1; margin-bottom: 0; }
+.chat-input-area button { padding: 10px; flex-shrink: 0; }
+#send-chat-btn { width: 44px; height: 44px; padding: 0; }
 
-.chat-input-area input {
-    flex: 1;
-    margin-bottom: 0;
-}
 
-.chat-input-area button {
-    margin-bottom: 0;
-    white-space: nowrap;
-}
-
-.human-msg, .ai-msg {
-    margin-bottom: 8px;
-    padding: 8px;
-    border-radius: 4px;
-    word-wrap: break-word;
-}
-
-.human-msg {
-    background-color: #007bff;
-    color: white;
-    text-align: right;
-}
-
-.ai-msg {
-    background-color: #e9ecef;
-    color: #333;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-}
-
-hr {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 20px 0;
-}
-
-#topic-bar {
-    flex: 0 0 280px;
-    background-color: #f0f4fa;
-    border-right: 1px solid #ddd;
-    padding: 20px 10px 20px 20px;
-    box-sizing: border-box;
-    height: 100vh;
-    overflow-y: auto;
-    min-width: 220px;
-}
-
-#topic-bar h2 {
-    margin-top: 0;
-    color: #333;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
-}
-
-#topic-list {
-    margin-bottom: 20px;
-}
-
-#topic-bar .section {
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 10px;
-}
-
-#topic-bar input[type="text"], #topic-bar textarea, #topic-bar input[type="file"] {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-#topic-bar button {
-    width: 100%;
-    margin-bottom: 0;
-}
-
-/* 响应式设计 */
-@media (max-width: 1100px) {
-    #topic-bar { flex: 0 0 180px; min-width: 120px; padding: 10px 2px 10px 10px; }
-    #panel-container { max-width: 220px; padding: 10px; }
-}
-
-@media (max-width: 768px) {
-    .container { flex-direction: column; }
-    #topic-bar, #panel-container { max-width: none; order: unset; }
-    #graph-container { flex: 1; min-height: 400px; }
-}
-
+/* --- 7. 弹窗 (Modal) --- */
 .modal {
     position: fixed;
     z-index: 1000;
     left: 0; top: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.4);
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed), visibility var(--transition-speed);
+}
+.modal.visible {
+    opacity: 1;
+    visibility: visible;
 }
 .modal-content {
-    background: #fff;
-    padding: 24px 20px 20px 20px;
-    border-radius: 8px;
-    min-width: 320px;
-    max-width: 90vw;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    background: var(--panel-bg);
+    padding: 24px;
+    border-radius: 12px;
+    width: 90vw;
+    max-width: 450px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     position: relative;
+    transform: scale(0.95);
+    transition: transform var(--transition-speed) ease-out;
 }
+.modal.visible .modal-content { transform: scale(1); }
+
 .close {
-    position: absolute;
-    right: 16px;
-    top: 10px;
-    font-size: 22px;
-    color: #888;
-    cursor: pointer;
+    position: absolute; right: 16px; top: 16px;
+    font-size: 28px; color: #aaa; cursor: pointer;
+    line-height: 1; transition: color var(--transition-speed);
 }
+.close:hover { color: var(--text-primary); }
+
+#edit-topic-form button { width: 100%; margin-top: 10px; }
+
 #edit-topic-docs-list {
-    margin: 10px 0 10px 0;
-    padding: 0;
+    margin: 15px 0; padding: 10px;
+    background: var(--bg-color);
+    border-radius: var(--border-radius);
+    max-height: 150px; overflow-y: auto;
 }
 #edit-topic-docs-list .doc-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 6px;
-    font-size: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 4px; font-size: 0.9rem;
 }
 #edit-topic-docs-list .doc-item span {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    color: var(--text-secondary);
 }
 #edit-topic-docs-list .remove-doc-btn {
-    background: #ff4444;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    padding: 2px 8px;
-    margin-left: 8px;
-    cursor: pointer;
-    font-size: 13px;
+    background: #e5e5ea; color: var(--text-secondary);
+    border: none; border-radius: 50%;
+    width: 24px; height: 24px; padding: 0; margin-left: 8px;
+    cursor: pointer; font-size: 14px; font-weight: bold;
+    line-height: 24px; text-align: center;
 }
-#edit-topic-docs-list .remove-doc-btn:hover {
-    background: #d11a1a;
+#edit-topic-docs-list .remove-doc-btn:hover { background: var(--danger-color); color: white; }
+
+/* --- 8. 响应式设计 --- */
+@media (max-width: 1200px) {
+    #topic-bar { flex-basis: 240px; }
+    #panel-container { flex-basis: 400px; }
+    #graph-container { flex-basis: 400px; }
+    body { font-size: 15px; }
+}
+
+@media (max-width: 992px) {
+    .container { flex-direction: column; height: auto; }
+    #topic-bar, #panel-container {
+        flex-basis: auto; width: 100%;
+        height: auto; max-height: 50vh;
+        border: none; border-bottom: 1px solid var(--border-color);
+    }
+    #graph-container { flex: 1; min-height: 500px; order: 0; }
+    #topic-bar { order: -1; }
+    #panel-container { order: 1; }
+}
+
+@media (max-width: 576px) {
+    body { font-size: 14px; }
+    #topic-bar, #panel-container, .modal-content { padding: 16px; }
+    h2 { font-size: 1.3em; }
+    h3 { font-size: 1em; }
+    button { padding: 10px 14px; }
 }

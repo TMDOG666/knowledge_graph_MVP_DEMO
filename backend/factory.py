@@ -69,6 +69,7 @@ class AgentFactory:
         llm_base_url = kwargs.get("llm_base_url")
         embedding_model = kwargs.get("embedding_model")
         embedding_base_url = kwargs.get("embedding_base_url")
+        print(f"personality: {personality}")
         return self.create_agent(
             personality=personality,
             rag_config=rag_config,

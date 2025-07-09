@@ -71,6 +71,7 @@ def get_agent_by_topic_id(topic_id: str):
                 "persist_path": f"./backend/db/{topic['id']}_db"
             }
         personality = topic.get('personality', f"你是{topic['name']}领域的专家，善于引导新手入门。")
+        print(f"personality: {personality}")
         _agent_factory.register_knowledge_base(topic_id, rag_config, personality)
     return _agent_factory.create_agent_by_kb_name(topic_id)
 
