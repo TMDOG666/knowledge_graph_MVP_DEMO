@@ -1,0 +1,6 @@
+[
+    {
+        "human": "我想学习控制结构",
+        "ai": "Python的控制结构是程序逻辑的核心组成部分，主要包括以下类型：\n\n1. **条件控制（if/elif/else）**\n   - 基于布尔表达式的真假分支控制\n   - 示例：\n     ```python\n     x = 10\n     if x > 5:\n         print(\"大于5\")\n     elif x == 5:\n         print(\"等于5\")\n     else:\n         print(\"小于5\")\n     ```\n   - 特性：支持链式比较（`3 < x < 7`）、truth value testing（如空序列/0值自动转为False）\n\n2. **循环控制（for/while）**\n   - `for`循环：基于迭代器的遍历（可迭代对象+迭代器协议）\n   - `while`循环：基于条件判断的重复执行\n   - 控制语句：`break`（强制退出）、`continue`（跳过当前迭代）、`pass`（空操作）\n   - 示例：\n     ```python\n     # for循环示例\n     for i in range(5):\n         if i == 3:\n             break\n         print(i)\n     \n     # while循环示例\n     count = 0\n     while count < 3:\n         print(count)\n         count += 1\n     ```\n\n3. **异常处理（try/except/finally/else）**\n   - 结构化错误处理机制\n   - 示例：\n     ```python\n     try:\n         result = 10 / 0\n     except ZeroDivisionError as e:\n         print(f\"捕获异常: {e}\")\n     else:\n         print(\"未发生异常时执行\")\n     finally:\n         print(\"无论是否异常都会执行\")\n     ```\n\n4. **上下文管理（with）**\n   - 自动管理资源（如文件操作）\n   - 示例：\n     ```python\n     with open('file.txt', 'r') as f:\n         content = f.read()\n     # 文件自动关闭\n     ```\n\n建议通过实际项目练习（如：编写猜数字游戏、文件批量处理脚本）来掌握这些结构。需要特别注意缩进规则（4空格）、布尔表达式优化（如利用`all()`/`any()`函数）以及避免循环嵌套过深等最佳实践。"
+    }
+]

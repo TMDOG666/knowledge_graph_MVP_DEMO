@@ -27,6 +27,20 @@
             "type": "knowledge",
             "content": "",
             "tags": []
+        },
+        {
+            "id": "56a8eda2-738d-4695-b99c-626ba88b52f2",
+            "label": "数据类型",
+            "type": "knowledge",
+            "content": "",
+            "tags": []
+        },
+        {
+            "id": "eec76b75-4933-4738-8ce8-7a9a70c4049f",
+            "label": "控制结构",
+            "type": "knowledge",
+            "content": "",
+            "tags": []
         }
     ],
     "edges": [
@@ -45,6 +59,18 @@
         {
             "from": "bbb11c76-5d50-4f91-bde7-d185702f17b2",
             "to": "e9ec132b-2ac6-498c-967c-75d758d064c4",
+            "type": "default",
+            "label": ""
+        },
+        {
+            "from": "bbb11c76-5d50-4f91-bde7-d185702f17b2",
+            "to": "56a8eda2-738d-4695-b99c-626ba88b52f2",
+            "type": "default",
+            "label": ""
+        },
+        {
+            "from": "bbb11c76-5d50-4f91-bde7-d185702f17b2",
+            "to": "eec76b75-4933-4738-8ce8-7a9a70c4049f",
             "type": "default",
             "label": ""
         }
